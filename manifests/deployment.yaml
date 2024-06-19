@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aks-store-demo-auto-deployment
+  labels:
+    app: aks-store-demo-auto-deployment
+    kubernetes.azure.com/generator: devhub
+  namespace: aks-store-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aks-store-demo-auto-deployment
+  template:
+    metadata:
+      labels:
+        app: aks-store-demo-auto-deployment
+    spec:
+      containers:
+        - name: aks-store-demo-auto-deployment
+          image: gbbaksday.azurecr.io/image-workflow-1718789511009:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
