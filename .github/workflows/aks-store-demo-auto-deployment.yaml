@@ -9,10 +9,9 @@ env:
     AZURE_CONTAINER_REGISTRY: gbbaksday
     CLUSTER_NAME: demo-aks-automatic-cluster
     CLUSTER_RESOURCE_GROUP: gbb-aks-day
-    CONTAINER_NAME: image-workflow-1718789511009
+    CONTAINER_NAME: image-workflow-1718790251253
     DEPLOYMENT_MANIFEST_PATH: |
-        manifests/deployment.yaml
-        manifests/service.yaml
+        ./aks-store-all-in-one.yaml
 jobs:
     buildImage:
         permissions:
@@ -28,7 +27,7 @@ jobs:
                 subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
                 tenant-id: ${{ secrets.AZURE_TENANT_ID }}
             - name: Build and push image to ACR
-              run: az acr build --image ${{ env.CONTAINER_NAME }}:${{ github.sha }} --registry ${{ env.AZURE_CONTAINER_REGISTRY }} -g ${{ env.ACR_RESOURCE_GROUP }} -f Dockerfile ./
+              run: az acr build --image ${{ env.CONTAINER_NAME }}:${{ github.sha }} --registry ${{ env.AZURE_CONTAINER_REGISTRY }} -g ${{ env.ACR_RESOURCE_GROUP }} -f ./docker-compose.yml ./
     deploy:
         permissions:
             actions: read
